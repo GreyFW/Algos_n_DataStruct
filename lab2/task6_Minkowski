@@ -1,0 +1,43 @@
+import turtle
+
+# Параметры
+LEVEL = 3           # глубина рекурсии
+STEP  = 5           # длина шага
+ANGLE = 90          # условие кривой Минковского
+# F → F right F left F left FF right F right F left F
+
+turtle.speed(0)
+
+def minkowski(length, n):
+    if n == 0:
+        turtle.forward(length)
+        return
+    
+    minkowski(length/4, n-1)    # F
+    turtle.right(ANGLE)         # right
+    minkowski(length/4, n-1)    # F
+    turtle.left(ANGLE)          # left
+    minkowski(length/4, n-1)    # F
+    turtle.left(ANGLE)          # left
+    minkowski(length/4, n-1)    # F
+    minkowski(length/4, n-1)    # F
+    turtle.right(ANGLE)         # right
+    minkowski(length/4, n-1)    # F
+    turtle.right(ANGLE)         # right
+    minkowski(length/4, n-1)    # F
+    turtle.left(ANGLE)          # left
+    minkowski(length/4, n-1)    # F
+
+# n=0 -> прямая линия
+# n=1 -> сегмент (линия) заменяется на паттерн из 8 сегментов
+# n=2 -> ранее получили 8 сегментов, теперь каждый ещё на 8
+# ..
+
+# Старт
+turtle.penup()
+turtle.goto(-350, 200)
+turtle.pendown()
+
+# Одна кривая Минковского
+minkowski(length=(STEP * 4**LEVEL), n=LEVEL)
+turtle.done()
